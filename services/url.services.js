@@ -1,6 +1,7 @@
 const Urls = require("../models/url.model");
 const { nanoid } = require("nanoid");
 const { baseUrl } = require("../utility/config");
+var validUrl = require("valid-url");
 
 /**
  *
@@ -10,9 +11,12 @@ const { baseUrl } = require("../utility/config");
 const createUrl = async (urlDto) => {
   try {
     let condition = { actualUrl: urlDto.url };
+    if (!validUrl.isUri(urlDTo.url)) {
+      throw new Error("Not a valid url");
+    }
     const exist = await Urls.findOne(condition);
     if (exist) return exist;
-    let urlKey = nanoid();
+    let urlKey = nanoid(12);
     let shortUrl = `${baseUrl}${urlKey}`;
     let saveObject = {
       shortUrl: shortUrl,
