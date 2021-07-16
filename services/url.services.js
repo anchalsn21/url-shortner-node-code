@@ -11,7 +11,7 @@ var validUrl = require("valid-url");
 const createUrl = async (urlDto) => {
   try {
     let condition = { actualUrl: urlDto.url };
-    if (!validUrl.isUri(urlDTo.url)) {
+    if (!validUrl.isUri(urlDto.url)) {
       throw new Error("Not a valid url");
     }
     const exist = await Urls.findOne(condition);
